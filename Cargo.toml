@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "High-level Rust wrappers/bindings for PackageKit"
 authors = ["Nikhil Prabhu <nikhilprabhu98@gmail.com>"]
 keywords = ["ffi", "packagekit", "bindings"]
+license = "GPL-3.0"
+repository = "https://github.com/nikhil-prabhu/pk-rs"
+documentation = "https://docs.rs/pk-rs"
 edition = "2021"
 
 [lib]
