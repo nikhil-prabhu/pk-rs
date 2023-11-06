@@ -1,0 +1,12 @@
+[package]
+name = "pk-rs"
+version = "0.1.0"
+description = "High-level Rust wrappers/bindings for PackageKit"
+authors = ["Nikhil Prabhu <nikhilprabhu98@gmail.com>"]
+keywords = ["ffi", "packagekit", "bindings"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
