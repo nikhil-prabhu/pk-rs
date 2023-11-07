@@ -10,6 +10,7 @@ documentation = "https://docs.rs/pk-rs"
 edition = "2021"
 
 [lib]
+name = "pk_rs"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
