@@ -1,7 +1,9 @@
 // TODO: documentation.
 
-use libc::{c_char, c_void};
 use std::ffi::{CStr, CString};
+use std::fmt;
+
+use libc::{c_char, c_void};
 
 #[repr(C)]
 // TODO: documentation.
@@ -15,6 +17,7 @@ struct PkrsPackage {
 }
 
 // TODO: documentation.
+#[derive(Debug)]
 pub struct Package {
     pub id: String,
     pub name: String,
@@ -22,6 +25,17 @@ pub struct Package {
     pub summary: String,
     pub arch: String,
     pub data: String,
+}
+
+impl fmt::Display for Package {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        writeln!(f, "ID: {}", self.id)?;
+        writeln!(f, "Name: {}", self.name)?;
+        writeln!(f, "Version: {}", self.version)?;
+        writeln!(f, "Summary: {}", self.summary)?;
+        writeln!(f, "Arch: {}", self.arch)?;
+        writeln!(f, "Data: {}", self.data)
+    }
 }
 
 extern "C" {
