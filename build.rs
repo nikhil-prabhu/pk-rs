@@ -1,41 +1,26 @@
 fn main() {
-    let mut build = cc::Build::new();
+    let mut c_build = cc::Build::new();
 
-    // Use pkg-config to get information about packagekit-glib2
-    if let Ok(package) = pkg_config::Config::new().probe("packagekit-glib2") {
-        for include_path in &package.include_paths {
-            build.include(include_path);
-        }
-        for library_path in &package.link_paths {
-            println!("cargo:rustc-link-search=native={}", library_path.display());
-        }
-        for library in &package.libs {
-            println!("cargo:rustc-link-lib={}", library);
-        }
-    } else {
-        eprintln!("packagekit-glib2 library not found.");
-        std::process::exit(1);
+    // Probe required system libraries with pkg-config.
+    let sys_deps = system_deps::Config::new().probe().unwrap();
+
+    // Add -I, -L and -l flags using probed values.
+    c_build.includes(&sys_deps.all_include_paths());
+
+    for path in &sys_deps.all_link_paths() {
+        c_build.flag(&format!("-L{:?}", path));
     }
 
-    // Use pkg-config to get information about glib-2.0
-    if let Ok(package) = pkg_config::Config::new().probe("glib-2.0") {
-        for include_path in &package.include_paths {
-            build.include(include_path);
-        }
-        for library_path in &package.link_paths {
-            println!("cargo:rustc-link-search=native={}", library_path.display());
-        }
-        for library in &package.libs {
-            println!("cargo:rustc-link-lib={}", library);
-        }
-    } else {
-        eprintln!("glib-2.0 library not found.");
-        std::process::exit(1);
+    for path in &sys_deps.all_libs() {
+        c_build.flag(&format!("-l{}", path));
     }
 
-    build
+    // Compile everything.
+    c_build
         .file("src/c/pk_rs.c")
         .shared_flag(true)
         .flag("-pthread")
         .compile("pk_rs");
+
+    println!("cargo:rerun-if-changed=src/c/pk_rs.c");
 }

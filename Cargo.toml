@@ -17,4 +17,8 @@ libc = "0.2.150"
 
 [build-dependencies]
 cc = "1.0.83"
-pkg-config = "0.3.27"
+system-deps = "6.2.0"
+
+[package.metadata.system-deps]
+packagekit-glib2 = "1.2.5"
+glib = { name = "glib-2.0", version = "2.78" }

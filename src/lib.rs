@@ -24,7 +24,6 @@ pub struct Package {
     pub data: String,
 }
 
-#[link(name = "pk_rs")]
 extern "C" {
     fn pkrs_get_package_details(package_name: *const c_char) -> *mut *mut PkrsPackage;
 }
